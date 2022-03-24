@@ -1,0 +1,17 @@
+GCC:
+    • CFLAGS="-g3 -fprofile-arcs -ftest-coverage" LDFLAGS="-lgcov"
+
+GCC Analysis:
+    • lcov --no-external --capture --directory Test/ --output-file coverage.info
+    • genhtml --frames --prefix Test/ --ignore-errors Source coverage.info --output-directory=output/
+    • lcov --zerocounters  --directory Test/
+
+Clang:
+    • CFLAGS="-g3 -fprofile-arcs -ftest-coverage" LDFLAGS="-coverage"
+
+
+GCC Analysis:
+    • sudo llvm-gcov.sh /usr/bin/.
+    • lcov --no-external --capture --gcov-tool llvm-gcov.sh --directory Test/ --base-directory Test/ --output-file coverage.info
+    • genhtml --frames --prefix Test/ --ignore-errors Source coverage.info --output-directory=output/
+    • lcov --zerocounters  --directory Test/
