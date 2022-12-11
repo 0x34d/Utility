@@ -1,7 +1,4 @@
-• systemctl start docker
-
-• docker image rm 49da78840a17
-
+• systemctl enable docker
 • docker images
 • docker ps -a 
 
@@ -12,10 +9,4 @@
 • docker start deploy
 • docker exec -it deploy bash
 • docker stop deploy
-
-
-docker cp brpc/ 039f673df9ba:/src/fuzzer/
-
-
-GUI:
-    • run gui app in docker container
+• docker cp brpc/ 039f673df9ba:/src/fuzzer/
