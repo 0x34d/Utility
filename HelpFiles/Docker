@@ -1,0 +1,21 @@
+• systemctl start docker
+
+• docker image rm 49da78840a17
+
+• docker images
+• docker ps -a 
+
+• docker run -t -d --name ripple 680e5dfb52c7 "/bin/bash"
+
+• docker commit 6e3804e3531f justsave
+
+• docker start deploy
+• docker exec -it deploy bash
+• docker stop deploy
+
+
+docker cp brpc/ 039f673df9ba:/src/fuzzer/
+
+
+GUI:
+    • run gui app in docker container

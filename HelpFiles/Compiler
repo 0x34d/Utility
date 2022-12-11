@@ -1,0 +1,55 @@
+Add_Compiler:
+      • CC=/usr/local/bin/afl-clang-fast
+      • CXX=/usr/local/bin/afl-clang-fast++
+
+Disable_security_check:
+      • CFLAGS="-fno-stack-protector -z execstack -no-pie -g -D_FORTIFY_SOURCE=0"
+      • LDFLAGS="-fno-stack-protector -z execstack -no-pie -g -D_FORTIFY_SOURCE=0"
+
+Disable_shared_lib:
+      • ./configure --disable-shared
+
+Compilation Database:
+      • cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+      • bear -- make
+
+Code Coverage:
+      GCC:
+            • CFLAGS="-O0 -g -fprofile-arcs -ftest-coverage" LDFLAGS="-O0 -g -lgcov"
+      Clang:
+            • CFLAGS="-O0 -g -fprofile-arcs -ftest-coverage" LDFLAGS="-O0 -g -coverage"
+
+ASAN:
+      • -fsanitize=address -lasan
+
+Cmake:
+      -DCMAKE_C_FLAGS="-fprofile-arcs -ftest-coverage -fno-omit-frame-pointer -fsanitize=address" \
+      -DCMAKE_EXE_LINKER_FLAGS="-lgcov -fno-omit-frame-pointer -fsanitize=address" ../
+
+
+Code:
+      ^.*(module).*\n?
+
+Memory:
+      CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768"
+
+Coverage:
+      lcov --no-external --capture --directory nng/ -o coverage.info
+      lcov --no-external --capture --directory knot/ --gcov-tool llvm-gcov.sh -o coverage.info
+      lcov --zerocounters  --directory nng/
+      genhtml --prefix nng/ --ignore-errors Source coverage.info --output-directory=output/
+
+gdb:
+      define xxd
+      >dump binary memory dump.bin $arg0 $arg0+$arg1
+      >shell xxd dump.bin
+      >end
+      (gdb) xxd &j 10 
+
+
+-DCMAKE_C_FLAGS="-fno-omit-frame-pointer -fsanitize=address" -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address" ../
+
+
+cmake -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release ../
+
+$ENV{LIB_FUZZING_ENGINE})

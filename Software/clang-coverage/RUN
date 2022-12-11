@@ -1,0 +1,7 @@
+# Compile the object file test.c
+$ clang -fprofile-arcs -ftest-coverage -c test.c
+
+# Link the program
+$ clang --coverage test.o -o a.out
+
+

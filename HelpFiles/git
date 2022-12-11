@@ -1,0 +1,21 @@
+git add .
+git status
+
+git config --local --add user.name "Arjun Singh"
+git config --local --add user.email "ajsinghyadav00@gmail.com"
+git commit -s -m "add krb5_rd_req harness"
+
+git log
+
+git push origin
+
+0x34d
+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
+
+Branch:
+    git branch
+    git branch ntpsec
+    git checkout oss-fuzz
+    git commit -am "[ntpsec] initial integration"
+
+python oss-fuzz/oss-fuzz/infra/helper.py build_fuzzers ntpsec --engine libfuzzer --sanitizer memory --architecture x86_64

@@ -1,0 +1,10 @@
+Username: 	douwx
+Password: 	pffyser9 
+
+export PATH=/home/0x34d/Tools/SquishCoco/bin/:$PATH
+
+If you want to use CoverageScanner wrapper for g++ or gcc,
+prepend /home/0x34d/Tools/SquishCoco/wrapper/bin to the PATH variable.
+
+Example:
+  export PATH=/home/0x34d/Tools/SquishCoco/wrapper/bin/:$PATH

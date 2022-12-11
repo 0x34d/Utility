@@ -1,0 +1,39 @@
+• dnf update
+• dnf check-update
+• dnf clean packages
+
+• dnf install 
+• dnf-plugins-core vim-common 
+• dnf-utils yum-utils neofetch
+
+• dnf remove libreoffice*
+• dnf remove tour gnome-weather gnome-maps gnome-clocks gnome-characters gnome-boxes gnome-contacts gnome-tour mediawriter
+
+• dnf install clang llvm clang-devel llvm-devel 
+• dnf install gcc gcc-c++ libasan libubsan
+• dnf install autoconf automake libtool cmake ragel bison flex
+• dnf groupinstall "Development Tools" "C Development Tools and Libraries"
+• dnf install boost-devel
+• dnf install golang gcc-go go
+
+• dnf install docker-ce docker-ce-cli containerd.io
+• systemctl start docker
+• systemctl enable docker
+
+• dnf install vscodium
+• dnf install eclipse-cdt
+• dnf install wireshark tcpdump
+• dnf install torbrowser-launcher
+• dnf install pwntools python3-pwntools
+
+• dnf install fedora-workstation-repositories
+• dnf config-manager --set-enabled google-chrome
+• dnf install google-chrome-stable
+
+• cd /usr/include/c++/
+• ln -s i686-redhat-linux x86_64-redhat-linux
+
+• history -c && history -w && exit
+
+• virtualenv
+

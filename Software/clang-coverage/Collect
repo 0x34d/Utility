@@ -1,0 +1,8 @@
+# Collect the code coverage results
+$ lcov --directory . \
+       --base-directory . \
+       --gcov-tool llvm-gcov.sh \
+       --capture -o cov.info
+
+# Generate HTML files.
+$ genhtml cov.info -o output

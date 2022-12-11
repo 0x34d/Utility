@@ -1,0 +1,54 @@
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=fuzzer-no-link,address")
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
+
+target_link_libraries(fuzzer brrr -fsanitize=fuzzer)
+
+
+:
+add_library()
+
+target_include_directories(say-hello PUBLIC "$(CMAKE_current_SRC_DIR/src)")     # Add this also to there dir 
+
+target_link_libraries(cmake_good PRIVATE say-hello)
+
+//PreProcess 
+target_compile_definitions(cmake_good public BRRR=00)
+
+/*
+public = Everyone
+private = onlyme
+Interface = notMe_only other 
+*/
+
+
+project(brrr)
+
+add_executable($(project_name) main.cpp)
+add_subdirectory(adder)
+
+target_include_directories($(project_name) PUBLIC adder)
+target_link_directories($(project_name) PRIVATE addder)
+target_link_libraries($(project_name) adder)
+
+#For macro
+if(BRRR)
+    add_subdirectory(adder)
+
+    list(APPEND EXTRA_LIBS_DIR Adder)
+    list(APPEND EXTRA_INCLUDE "${project_SOURCE_DIR}/adder")
+    list(APPEND EXTRA_LIBS_LK adder)
+endif()
+
+
+target_include_directories($(project_name) PUBLIC ${EXTRA_INCLUDE})
+target_link_directories($(project_name) PUBLIC ${EXTRA_LIBS_DIR})
+target_link_libraries($(project_name) ${EXTRA_LIBS_LK})
+
+
+https://github.com/dev-cafe/cmake-cookbook
+https://cliutils.gitlab.io/modern-cmake/
+https://codevion.github.io/#!cpp/cmake.md
+https://github.com/fuzzitdev/example-c
+
+
+
