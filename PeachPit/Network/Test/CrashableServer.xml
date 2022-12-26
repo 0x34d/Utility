@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://peachfuzzer.com/2012/Peach ../../peach.xsd">
+
+    <Defaults>
+        <Number endian="network" />
+    </Defaults>
+
+    <DataModel name="Test">
+        <String  name="Data" value="Hello World" />
+    </DataModel>
+
+    <StateModel initialState="Initial" name="TheStateModel">
+        <State name="Initial">
+            <Action type="output" >
+                <DataModel ref="Test"/>
+            </Action>
+        </State>
+    </StateModel>
+
+    <Agent name="RemoteAgent" />
+
+    <Test name="Default">
+        <StateModel ref="TheStateModel" />
+        <Agent ref="RemoteAgent" />
+
+        <Publisher class="Tcp">
+            <Param name="Host" value="##HOST##"/>
+            <Param name="Port" value="##PORT##"/>
+        </Publisher>
+        <Strategy class="RandomDeterministic"/>
+    </Test> 
+</Peach>

@@ -1,0 +1,32 @@
+docker pull fedora:28 
+
+dnf install \
+    clang clang-devel llvm llvm-devel gcc gcc-c++ gdb python python-pip java-1.8.0-openjdk-devel.x86_64 cmake \
+    ca-certificates wget curl  git tcpdump wireshark fping hping3 httping thc-ipv6 openssl openssl-devel \
+    dnf-utils coreutils bash-completion gnupg dirmngr unzip p7zip nano \
+    ruby joe nano mlocate strace doxygen less asciidoctor  nodejs npm \
+    libxslt libxml2 /usr/lib64/libasan.so.5.0.0
+
+dnf groupinstall "Development Tools" "C Development Tools and Libraries"
+gem install asciidoctor asciidoctor-pdf bundler
+npm install --global typescript@2.8.4
+
+dnf install mono-complete-5.20.1.34-0.xamarin.2.epel7
+
+wget http://software.intel.com/sites/landingpage/pintool/downloads/pin-3.2-81205-gcc-linux.tar.gz
+
+wget https://github.com/fsprojects/Paket/releases/download/5.257.0/paket.bootstrapper.exe && \
+wget https://github.com/fsprojects/Paket/releases/download/5.257.0/paket.targets && \
+wget https://github.com/fsprojects/Paket/releases/download/5.257.0/paket.exe && \
+wget https://github.com/fsprojects/Paket/releases/download/5.257.0/Paket.Restore.targets && \
+chmod +x *
+
+dnf remove mono-complete doxygen
+
+dnf install mono-complete-4.8.1.0-0.xamarin.1
+
+./waf configure -v
+./waf build -j4
+./waf install
+
+

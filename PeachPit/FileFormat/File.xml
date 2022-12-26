@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://peachfuzzer.com/2012/Peach ../peach.xsd">
+    <Import import="math" />
+
+
+    <DataModel name="Header">
+
+    </DataModel>
+
+    <DataModel name="TheDataModule">
+        <Block ref="Header"></Block>
+    </DataModel>
+
+    <!-- State model-->    
+    <StateModel name="State" initialState="Initial">
+        <State name="Initial">
+        <!-- Write out the contents of file.  The publisher attribute matches
+                the name provided for the publisher in the Test section. -->
+            <Action type="output">
+                <DataModel ref="TheDataModule"/>
+                <Data name="data" fileName="sample\sample.file" />
+            </Action>
+            <!-- Close the file -->
+            <Action type="close"/>
+                <!-- Launch the file consumer -->            
+            <Action type="call" method="ScoobySnacks" publisher="Peach.Agent"/>
+        </State>   
+    </StateModel>
+
+    <!-- Agent-->
+    <Agent name="LocalAgent">
+        <!-- Native Moniter-->
+        <Monitor class="WindowsDebugger">
+            <Param name="CommandLine" value="file.exe Fuzz_input" />
+            <Param name="WinDbgPath" value="C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\" />
+            <Param name="StartOnCall" value="ScoobySnacks" />
+        </Monitor>        
+        <!-- PageHeap-->
+        <Monitor class="PageHeap">
+            <Param name="Executable" value="file.exe" />
+        </Monitor>
+
+    </Agent>
+
+    <!-- 7zip.exe Fuzz.wim-->
+
+    <Test name="Default">
+        <!-- Optional agent references -->
+        <Agent ref="LocalAgent" platform="windows"/>
+
+        <!-- Indicate which state model to use (required) -->
+        <StateModel ref="State" />
+
+        <!-- Use a different fuzzing strategy -->
+        <Strategy class="Sequential"/>
+    
+        <!--configure our Publisher with correct filename to write too-->
+        <Publisher class="File">
+            <Param name="FileName" value="Fuzz_input" />
+        </Publisher>
+
+        <Logger class="Filesystem">
+            <Param name="Path" value="logfolder" />
+        </Logger>
+
+    </Test>
+
+</Peach>

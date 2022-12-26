@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://peachfuzzer.com/2012/Peach ../../peach.xsd">
+
+    <Defaults>
+        <Number endian="network" />
+    </Defaults>
+
+    <DataModel name="DnsQuery">
+        <Number name="TransactionID" size="16">
+            <Fixup class="SequenceRandom"/>
+        </Number>
+        <Flags name="Flags" size="16" endian="network">
+            <Flag name="Response"   position="0"  size="1"/>
+            <Flag name="Opcode"     position="1"  size="4"/>
+            <Flag name="Truncated"  position="6"  size="1"/>
+            <Flag name="Recursion"  position="7"  size="1"/>
+            <Flag name="Z"          position="9"  size="1"/>
+            <Flag name="AD"         position="10" size="1"/>
+            <Flag name="Non_auth"   position="11" size="1"/>
+        </Flags>
+        <Number name="Questions" size="16">
+            <Relation type="count" of="Queries" />
+        </Number>
+        <Number name="AnswerRR" size="16"/>
+        <Number name="AuthorityRR" size="16"/>
+        <Number name="AdditionalRR" size="16">
+            <Relation type="count" of="Additional" />
+        </Number>
+
+        <Block name="Queries" maxOccurs="-1">
+            <Block name="Label" maxOccurs="-1">
+                <Number name="lenght" size="8">
+                    <Relation type="size" of="value" />
+                </Number>
+                <String name="value"/>
+            </Block>
+            <Choice name="RR_type" minOccurs="1" maxOccurs="1">
+                <Number name="A"     value="01"  size="16"/>
+                <Number name="NS"    value="02"  size="16"/>
+                <Number name="MD"    value="03"  size="16"/>
+                <Number name="MF"    value="04"  size="16"/>
+                <Number name="CNAME" value="05"  size="16"/>
+                <Number name="SOA"   value="06"  size="16"/>
+                <Number name="MB"    value="07"  size="16"/>
+                <Number name="MG"    value="08"  size="16"/>
+                <Number name="MR"    value="09"  size="16"/>
+                <Number name="WKS"   value="11"  size="16"/>
+                <Number name="PTR"   value="12"  size="16"/>
+                <Number name="HINFO" value="13"  size="16"/>
+                <Number name="MX"    value="15"  size="16"/>
+                <Number name="TXT"   value="16"  size="16"/>
+                <Number name="AAAA"  value="28"  size="16"/>
+                <Number name="SRV"   value="33"  size="16"/>
+                <Number name="NAPTR" value="35"  size="16"/>
+            </Choice>
+            <Choice name="Class">
+                <Number name="CH" size="16" value="3" />
+                <Number name="IN" size="16" value="1" />
+            </Choice>
+        </Block>
+
+        <Block name="Additional" maxOccurs="-1">
+            <Number name="Root" size="8" value="0" />
+            <Number name="OPT" size="16" value="41"/>
+            <Number name="UDP_payload_size" size="16" valueType="hex" value="10 00"/>
+            <Number name="RCODE" size="8" value="0"/>
+            <Number name="EDNS"  size="8" value="0"/>
+
+            <Flags name="Z" size="16" endian="network">
+                <Flag name="DO_bit"   position="0" size="1"/>
+                <Flag name="Reserved" position="1" size="15"/>
+            </Flags>
+            <Number name="DataLen" size="16">
+                <Relation type="size" of="OptionSize" />
+            </Number>
+
+            <Block name="OptionSize">
+                <Block name="Option" maxOccurs="-1">
+                    <Number name="Code" size="16" valueType="hex" />
+                    <Number name="Length" size="16" valueType="hex">
+                        <Relation type="size" of="Data" />
+                    </Number>
+                    <Blob valueType="hex" name="Data"/>
+                </Block>
+            </Block>
+        </Block>
+    </DataModel>
+
+    <DataModel name="Response">
+        <Blob/>
+    </DataModel>
+
+    <StateModel initialState="Initial" name="TheStateModel">
+        <State name="Initial">
+            <Action type="output" >
+                <DataModel ref="DnsQuery"/>
+                <Data>
+                    <Field name="Flags.Recursion" value="1"/>
+                    <Field name="Flags.AD" value="1" />
+                    <Field name="Queries[0].Label[0].value" value="hostname"/>
+                    <Field name="Queries[0].Label[1].value" value=""/>
+                    <Field name="Additional[0].OptionSize.Option[0].Code" valueType="hex" value="00 0a" />
+                    <Field name="Additional[0].OptionSize.Option[0].Data" valueType="hex" value="95 3B 1E 9F FF 4D 0B B2"/>
+                </Data>
+            </Action>
+            <Action type="input">
+                <DataModel ref="Response"/>
+            </Action>
+        </State>
+    </StateModel>
+
+    <Agent name="RemoteAgent" />
+
+    <Test name="Default">
+        <StateModel ref="TheStateModel" />
+        <Agent ref="RemoteAgent" />
+
+        <Publisher class="Udp">
+            <Param name="Host" value="##HOST##"/>
+            <Param name="Port" value="##PORT##"/>
+        </Publisher>
+
+        <Strategy class="RandomDeterministic" />
+    </Test>    
+
+</Peach>

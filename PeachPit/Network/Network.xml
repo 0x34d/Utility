@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://peachfuzzer.com/2012/Peach ../peach.xsd">
+
+    <Defaults>
+        <Number endian="network" />
+    </Defaults>
+
+    <DataModel name="EDNS">
+
+    </DataModel>
+
+    <DataModel name="Response">
+        <Blob/>
+    </DataModel>
+
+    <StateModel initialState="Initial" name="TheStateModel">
+        <State name="Initial">
+            <Action type="output" >
+                <DataModel ref="EDNS"/>
+            </Action>
+            <Action type="input">
+                <DataModel ref="Response"/>
+            </Action>
+        </State>
+    </StateModel>
+
+    <Agent name="RemoteAgent">
+        <Monitor class="Gdb">
+            <Param name="Executable" value="##Executable##" />
+            <Param name="StartOnCall" value="ScoobySnacks"/>
+        </Monitor>
+    </Agent>
+
+    <Test name="Default">
+        <StateModel ref="TheStateModel" />
+        <Agent ref="RemoteAgent" />
+
+        <Publisher class="Udp">
+            <Param name="Host" value="##HOST##"/>
+            <Param name="Port" value="##PORT##"/>
+        </Publisher>
+
+        <Logger class="File">
+            <Param name="Path" value="Logs"/>
+        </Logger>
+
+        <Strategy class="RandomDeterministic"/>
+    </Test>    
+
+</Peach>
