@@ -1,3 +1,6 @@
+deb:
+    bullseye
+ 
 Tools:
     https://github.com/google/syzkaller.git
 
