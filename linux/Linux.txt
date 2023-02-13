@@ -1,0 +1,11 @@
+Tools:
+    https://github.com/google/syzkaller.git
+
+syzkaller-info:
+    https://bmeneg.com/post/kernel-debugging-with-qemu/
+    https://blog.vincss.net/2020/12/pt008-en-fuzzing-linux-kernel-with-syzkaller.html
+    https://github.com/google/syzkaller/tree/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md
+    https://www.collabora.com/news-and-blog/blog/2020/03/26/syzkaller-fuzzing-the-kernel/
+    https://www.collabora.com/news-and-blog/blog/2020/04/17/using-syzkaller-to-detect-programming-bugs-in-linux/
+    https://www.collabora.com/news-and-blog/blog/2020/05/12/using-syzkaller-fuzzing-your-changes/
+    https://www.collabora.com/news-and-blog/blog/2020/06/26/using-syzkaller-part-4-driver-fuzzing/
