@@ -1,0 +1,8 @@
+
+    input = (char *)malloc(size+1);
+    if (!input) {
+        return 1;
+    }
+    strncpy(input, (const char *)data, size);
+    input[size] = '\0';
+    
