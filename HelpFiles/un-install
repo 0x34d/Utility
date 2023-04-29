@@ -9,7 +9,7 @@
 • dnf remove libreoffice*
 • dnf remove tour gnome-weather gnome-maps gnome-clocks gnome-characters gnome-boxes gnome-contacts gnome-tour mediawriter
 
-• dnf install clang llvm clang-devel llvm-devel 
+• dnf install clang llvm clang-devel llvm-devel compiler-rt
 • dnf install gcc gcc-c++ libasan libubsan
 • dnf install autoconf automake libtool cmake ragel bison flex
 • dnf groupinstall "Development Tools" "C Development Tools and Libraries"
