@@ -15,3 +15,7 @@
 • dnf groupinstall "Development Tools" "C Development Tools and Libraries"
 
 • dnf install wireshark tcpdump pwntools python3-pwntools
+
+
+
+• DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends
